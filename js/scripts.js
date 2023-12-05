@@ -55,7 +55,7 @@ const btnRoll = document.getElementById('rollButton');
 const btnHold = document.getElementById('holdButton');
 
 btnNew.addEventListener('click', function () {
-    console.log('kittens.')
+    
 });
 
 btnRoll.addEventListener('click', function () {
