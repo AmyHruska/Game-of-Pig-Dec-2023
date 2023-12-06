@@ -6,11 +6,10 @@
 //     this.playing = playing;
 // }
 
-function Game(score, turnTotal, activePlayer, playing) {
+function Game(score, turnTotal, activePlayer) {
     this.score = score;
     this.turnTotal = turnTotal;
     this.activePlayer = activePlayer;
-    this.playing = playing;
 }
 
 Game.prototype.turnSwap = function () {
@@ -36,32 +35,49 @@ Game.prototype.hold = function () {
 
 Game.prototype.gameWinCheck = function () {
     if (this.score[this.activePlayer] >= 100) {
-    this.playing = false;
+    winButtonDisable();
     }
 };
 
 // UI logic
-let players = new Game([0,0],0,0,false);
-// Event listeners for roll and hold buttons
-
-// const diceEl = document.querySelector('.dice');
-// const btnNew = document.querySelector('.btn--new');
-// const btnRoll = document.('.btn--roll');
-// const btnHold = document.querySelector('.btn--hold');
+let players = new Game([0,0],0,0);
 
 const diceEl = document.getElementById('diceImage');
 const btnNew = document.getElementById('newGameButton');
 const btnRoll = document.getElementById('rollButton');
 const btnHold = document.getElementById('holdButton');
 
+// UI function:
+const winButtonDisable =  function(){
+    btnRoll.disabled = true;
+    btnHold.disabled = true;
+}
+
+// const newGameReset = function() {
+//     players = ([0,0],0,0);
+// }
+
+// Event listeners for new game, roll, and hold buttons
 btnNew.addEventListener('click', function () {
-    
+    btnRoll.disabled = false;
+    btnHold.disabled = false;
+    // newGameReset();
 });
 
 btnRoll.addEventListener('click', function () {
-    console.log('cats!')
+    players.rollDice();
+    let activePlayer = players.activePlayer
+    if (activePlayer === 0) {
+    document.getElementById('current--0').innerText = players.turnTotal;
+    } else {
+    document.getElementById('current--1').innerText = players.turnTotal;
+    }
 });
 
 btnHold.addEventListener('click', function () {
-    console.log('kittens!')
+    players.hold();
+    document.getElementById('current--0').innerText = 0;
+    document.getElementById('current--1').innerText = 0;
+    document.getElementById('total--0').innerText = players.score[0];
+    document.getElementById('total--1').innerText = players.score[1];
 });
